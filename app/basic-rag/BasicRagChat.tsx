@@ -10,7 +10,7 @@ import { Methods } from "../types/Http";
 import ChatError from "../components/ChatError";
 import { err } from "../logging";
 
-const basicChatUrl = "http://localhost:3000/api/basic-rag";
+const basicRagChatUrl = "http://localhost:3000/api/basic-rag";
 const chatControlsTempStyles = {
   position: "fixed",
   bottom: 0,
@@ -22,7 +22,7 @@ const chatControlsTempStyles = {
 
 async function postMessage(msg: AppChatMessage): Promise<AppChatMessage> {
   try {
-    const response = await makeFetchRequest(createRequest(basicChatUrl, Methods.POST, msg));
+    const response = await makeFetchRequest(createRequest(basicRagChatUrl, Methods.POST, msg));
     return response;
   } catch (e) {
     err(e);
