@@ -1,3 +1,23 @@
+## AI Samples
+
+This project has some GPT integration samples and is meant to experiment with and extend these ideas. The project structure is definitely subject to change. The `Pages` so far are
+
+- Home (there's nothing on it)
+- Basic Chat (where GPT is allowed to just be itself)
+- Basic RAG Chat (where GPT is given some "about us" text for a fake business and is tasked with answering questions about that business)
+
+The chat pages talk to the pages/api routes by the same names. Those api routess are just handler functions that use a "service class" we've called `Chatter`. The difference in GPT's behavior is determined solely by the prompts fed to the `ConversationChain` that uses a `MemoryBuffer` as described here [Langchain Buffer Docs](https://js.langchain.com/docs/modules/memory/types/buffer).
+
+To get it working locally, one will need a `.env.local` file with this variable set:
+
+```bash
+OPENAI_API_KEY=<SOME_API_KEY>
+```
+
+The UI and styles are pretty wonky so far but it's using material-ui, so people who know what they're doing could probably make it look nice.
+
+### NextJS README:
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
