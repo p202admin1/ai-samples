@@ -2,7 +2,7 @@ import { useState, MouseEvent, ChangeEvent } from "react";
 import { AppChatMessage, Chatters } from "../types/Chat";
 import { err } from "../logging";
 
-export default function useChat(postMessageFunc: (msg: AppChatMessage) =>  Promise<AppChatMessage>) {
+export default function useChat(url: string, postMessageFunc: (url: string, msg: AppChatMessage) =>  Promise<AppChatMessage>) {
   const [chatError, setChatError] = useState<Error | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [chatMessages, setChatMessages] = useState<AppChatMessage[]>([]);
@@ -15,7 +15,7 @@ export default function useChat(postMessageFunc: (msg: AppChatMessage) =>  Promi
         const messageText = inputValue;
         setChatMessages((prevMessages) => [...prevMessages, {message: messageText, source: Chatters.UI}]);
         setInputValue("");
-        const receivedMessage = await  postMessageFunc({message: messageText, source: Chatters.UI}); 
+        const receivedMessage = await  postMessageFunc(url, {message: messageText, source: Chatters.UI}); 
         setChatMessages((prevMessages) => [...prevMessages, receivedMessage] as AppChatMessage[]);
       } catch (e) {
         err(`error in chat component ${e}`);

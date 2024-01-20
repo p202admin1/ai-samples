@@ -9,6 +9,6 @@ export default function Heading({text, variant}: HeadingProps) {
   return (
     <Typography 
       variant={variant}
-      style={{fontWeight: 100, fontSize: "2.4em", margin: "0.4em 0"}}>{text}</Typography>
+      style={{fontWeight: 100, fontSize: "2.4em", margin: "0.4em 0", textAlign: "center"}}>{text}</Typography>
   );
 }
