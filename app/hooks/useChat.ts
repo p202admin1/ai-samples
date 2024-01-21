@@ -13,9 +13,9 @@ export default function useChat(url: string, postMessageFunc: (url: string, msg:
     if (inputValue !== "") {
       try {
         const messageText = inputValue;
-        setChatMessages((prevMessages) => [...prevMessages, {message: messageText, source: Chatters.UI}]);
+        setChatMessages((prevMessages) => [...prevMessages, {text: messageText, source: Chatters.UI}]);
         setInputValue("");
-        const receivedMessage = await  postMessageFunc(url, {message: messageText, source: Chatters.UI}); 
+        const receivedMessage = await  postMessageFunc(url, {text: messageText, source: Chatters.UI}); 
         setChatMessages((prevMessages) => [...prevMessages, receivedMessage] as AppChatMessage[]);
       } catch (e) {
         err(`error in chat component ${e}`);

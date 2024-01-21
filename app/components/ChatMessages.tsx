@@ -16,8 +16,8 @@ const listStyle: any = {
 
 export function ChatMessages({messages}: ChatMessagesProps) {
   
-  const messagesMarkup = messages.map(({message, source}, i) => {
-    return <ListItem key={i}><ListItemText><b>{source}:</b> {message}</ListItemText></ListItem>
+  const messagesMarkup = messages.map(({text, source}, i) => {
+    return <ListItem key={i}><ListItemText><b>{source}:</b> {text}</ListItemText></ListItem>
   });
   return (
     <Box>
