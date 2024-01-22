@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import handler from "./";
-import BasicChatter from "../../../app/services/chat/BasicChatter";
 import { AppChatMessage } from '../../../app/types/Chat';
 
 const mockChatterRes = {source: "bot", text: "success text"}
