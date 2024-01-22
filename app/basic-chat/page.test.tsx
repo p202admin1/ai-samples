@@ -4,10 +4,10 @@ import Page from "./page";
  
 describe("Page", () => {
   it("renders a heading", () => {
-    render(<Page />)
+    render(<Page />);
  
-    const heading = screen.getByRole("heading", { level: 1 })
+    const heading = screen.getByRole("heading", { level: 1 });
  
-    expect(heading).toBeInTheDocument()
+    expect(heading).toBeInTheDocument();
   })
 })
