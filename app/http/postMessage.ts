@@ -1,5 +1,5 @@
 import { err } from '../logging';
-import { AppChatMessage } from '../types/Chat';
+import { AgentChatMessage, AppChatMessage } from '../types/Chat';
 import { Methods } from '../types/Http';
 import makeFetchRequest, { createRequest } from './makeFetchRequest';
 

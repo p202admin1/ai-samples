@@ -6,14 +6,16 @@ import ChatMessage from './ChatMessage';
 
 interface ChatUIProps {
   url: string;
+  userName?: string;
+  selectedSite?: any;
 }
 
-export default function ChatUI({url}: ChatUIProps) {
-  const {inputValue, chatError, chatMessages, handleChange, handleClear, handleSend} = useChat(
-    url,
+export default function ChatUI(props: ChatUIProps) {
+  const {inputValue, chatError, chatMessages, handleChange, handleSend} = useChat(
+    {...props},
     postMessage
   );
-
+  
   return (
     <Box
       sx={{
