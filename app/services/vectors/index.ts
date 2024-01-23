@@ -5,23 +5,24 @@ import { err } from '@/app/logging';
 import { VectorStoreRetriever } from 'langchain/vectorstores/base';
 import { createRetrieverTool } from 'langchain/tools/retriever';
 
-
 export async function getInMemoryVectorStore(
   documents: LangChainDocument[],
 ): Promise<VectorStoreRetriever<MemoryVectorStore>> {
-  try {
-    const vectorstore = await MemoryVectorStore.fromDocuments(documents, new OpenAIEmbeddings());
-    return vectorstore.asRetriever();
-  } catch (e) {
-    err(`error in getInMemoryVectorStore ${e}`);
-    throw e;
-  }
+  const vectorstore = await MemoryVectorStore.fromDocuments(documents, new OpenAIEmbeddings());
+  return vectorstore.asRetriever();
 }
 
-// this return type is next level silliness
-export function getRetrieverTool(
-  retriever: VectorStoreRetriever<MemoryVectorStore>,
+
+export async function getVectorStoreRetrieverTool(
+  documents: LangChainDocument[],
   name: string,
-  description: string) {
-  return createRetrieverTool(retriever, {name, description});
+  description: string,
+) {
+  try {
+    const retriever = await getInMemoryVectorStore(documents);
+    return createRetrieverTool(retriever, {name, description});
+  } catch (e) {
+    err(`error in 'getVectorStoreRetrieverTool' ${e}`);
+    throw e;
+  }
 }

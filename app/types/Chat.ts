@@ -6,5 +6,6 @@ export interface AppChatMessage {
 export enum Chatters {
   UI = "You",
   Basic = "Basic Bot",
-  BasicRag = "Basic RAG Bot"
+  BasicRag = "Basic RAG Bot",
+  WebAgent = "Agent Smith"
 }

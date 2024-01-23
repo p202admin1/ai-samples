@@ -17,6 +17,7 @@ const { AgentExecutor, createOpenAIFunctionsAgent } = require("langchain/agents"
 async function getWebText() {
   const loader = new CheerioWebBaseLoader(
     "https://js.langchain.com/docs/get_started/introduction"
+    // "https://arxiv.org/pdf/2401.10454.pdf?"
   );
   const rawDocs = await loader.load();
   return rawDocs;
@@ -31,7 +32,7 @@ async function splitText(rawDocs, chunkSize, chunkOverlap) {
 (async () => {
   const rawDocs = await getWebText();
   const splitDocs = await splitText(rawDocs, 1000, 200);
-
+ 
   const vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, new OpenAIEmbeddings());
   const retriever = vectorstore.asRetriever();
   
@@ -60,16 +61,21 @@ async function splitText(rawDocs, chunkSize, chunkOverlap) {
   
   const agent = await createOpenAIFunctionsAgent({llm, tools, prompt});
   const agentExecutor = new AgentExecutor({agent, tools});
+  const history = [
+    new HumanMessage("hi! my name is Ken"),
+    new AIMessage("Hello Ken! How can I assist you today?"),
+  ];
+  const result = await agentExecutor.invoke({input: question, history});
 
-  const result = await agentExecutor.invoke({
-    input: question,
-    history: [
-      new HumanMessage("hi! my name is Ken"),
-      new AIMessage("Hello Ken! How can I assist you today?"),
-    ]
-  });
+  console.log("result output: ", result.output);
+  
+  history.push(new HumanMessage(question));
+  history.push(new AIMessage(result.output));
 
-  console.log("result: ", result);
+  const nextResult = await agentExecutor.invoke({input: "what libraries does LangChain have?", history});
+  console.log("next: ", nextResult);
+
+  // const finalResult = await
 
 })();
 

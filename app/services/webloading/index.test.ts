@@ -1,6 +1,6 @@
 import { Document } from 'langchain/document';
 import { getWebText } from ".";
-import { BaseDocumentLoader } from 'langchain/document_loaders/base';
+import { BaseDocumentLoader } from "langchain/document_loaders/base";
 
 const successDotCom = "success.com";
 const failDotCom = "fail.com";
@@ -16,6 +16,7 @@ class MockLoader {
     throw testError;
   }
 }
+
 
 describe("getWebText function", () => {
   it("should successfully invoke load method", async () => {
