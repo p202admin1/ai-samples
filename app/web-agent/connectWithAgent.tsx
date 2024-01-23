@@ -6,8 +6,9 @@ import { AgentUIConfig } from '../types/Chat';
 const agentSites = [
   {name: "Llama2", url: "https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/"},
   {name: "LangChain", url: "https://js.langchain.com/docs/get_started/introduction"},
+  {name: "Pinecone", url: "https://docs.pinecone.io/docs/overview"},
+  {name: "LlamaIndex", url: "https://www.llamaindex.ai/"},
 ];
-
 
 type AgentChildProps = {url: string} & AgentUIConfig;
 
