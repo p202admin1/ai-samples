@@ -1,8 +1,8 @@
-import { BaseDocumentLoader } from 'langchain/document_loaders/base';
-import { RecursiveCharacterTextSplitter, TextSplitter } from 'langchain/text_splitter';
-import { err } from '@/app/logging';
-import { LangChainDocument } from '@/app/types/LangChain';
-import { CheerioWebBaseLoader } from 'langchain/document_loaders/web/cheerio';
+import { BaseDocumentLoader } from "langchain/document_loaders/base";
+import { RecursiveCharacterTextSplitter, TextSplitter } from "langchain/text_splitter";
+import { err } from "@/app/logging";
+import { LangChainDocument } from "@/app/types/LangChain";
+import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 
 const chunkSize = 500;
 const chunkOverlap = 100;
@@ -14,7 +14,7 @@ export async function getSplitDocuments(url: string) {
     const splitWebDocuments = await splitDocuments(rawDocuments, defaultTextSplitter);
     return splitWebDocuments;
   } catch (e) {
-    err(`error in 'getSplitDocuments' ${e}`);
+    err(`error in "getSplitDocuments" ${e}`);
     throw e;
   }
 }

@@ -17,7 +17,6 @@ class MockLoader {
   }
 }
 
-
 describe("getWebText function", () => {
   it("should successfully invoke load method", async () => {
     const results = await getWebText(MockLoader as unknown as new (s: string) => BaseDocumentLoader, successDotCom);

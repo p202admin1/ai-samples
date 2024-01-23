@@ -4,7 +4,7 @@ import model from "@/app/services/chat/Model";
 import { err, info } from "@/app/logging";
 import { getVectorStoreRetrieverTool } from '@/app/services/vectors';
 import { getSplitDocuments } from '@/app/services/webloading';
-import { AgentChatMessage, AgentSite, AppChatMessage, Chatters } from '@/app/types/Chat';
+import { AgentChatMessage, AgentSite, Chatters } from '@/app/types/Chat';
 import { BaseMessage } from 'langchain/schema';
 
 const defaultTemplate = getDefaultAgentTemplate();
