@@ -1,5 +1,14 @@
-import { Box } from '@mui/material';
 import { FC, Component, ChangeEvent } from 'react';
+import { 
+  Box,
+  TextField,
+  Select,
+  SelectChangeEvent,
+  Typography,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
 import { webAgentUrl } from '../http/urls';
 import { AgentUIConfig } from '../types/Chat';
 
@@ -26,32 +35,38 @@ export default function connectWithAgent(Child: FC<AgentChildProps>) {
       this.setState((prevState) => ({...prevState, userName: e.target.value}));
     };
 
-    handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    handleSelectChange = (e: SelectChangeEvent) => {
       const newSelected =  agentSites.find((site) => site.url === e.target.value);
       if (newSelected != null) {
         this.setState((prevState) => ({...prevState, selectedSite: newSelected}));
       }
     };
 
-
     render() {
       const {userName, selectedSite} = this.state;
-      const siteOptions = [<option key="empty"></option>].concat(agentSites.map(({name, url}) => {
-        return <option key={name} value={url}>{name}</option>;
-      }));
+      const selectValue = selectedSite?.url ? selectedSite.url : "";
+      const siteOptions = [<MenuItem disabled key="empty" value=""></MenuItem>].concat(
+        agentSites.map(({name, url}) => (<MenuItem key={name} value={url}>{name}</MenuItem>)
+      ));
       const childProps: AgentChildProps = {selectedSite, url: webAgentUrl, userName};
+      
       return(
         <Box>
           <form>
-          <label htmlFor="userName">
-            User Name:
-            <input onChange={this.handleInputChange} id="userName"/>
-          </label>
-          <select onChange={this.handleSelectChange}>
-            {siteOptions}
-          </select>
-          {selectedSite != null && <p>{selectedSite.name}</p>}
-        </form>
+            <TextField sx={{ m: .3 }} onChange={this.handleInputChange} label="User Name" value={userName} />
+            <FormControl fullWidth variant="filled" sx={{ m: .8, minWidth: 150 }}>
+              <InputLabel id="demo-simple-select-label">Site to Query</InputLabel>
+              <Select  
+                value={selectValue}
+                id="site-selector"
+                label="Site to Query"
+                onChange={this.handleSelectChange}
+              >
+                {siteOptions}
+              </Select>
+            </FormControl>
+            {selectedSite != null && <Typography>{`You're chatting about: ${selectedSite.name}`}</Typography>}
+          </form>
           <Child {...childProps} />
         </Box>
       );
