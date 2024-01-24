@@ -1,4 +1,4 @@
-import { debug, err } from "@/app/logging";
+import { err } from "@/app/logging";
 import { StructuredToolInterface } from "@langchain/core/tools";
 import { ChatOpenAI } from "@langchain/openai";
 import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
@@ -13,6 +13,10 @@ import { ChainValues, BaseMessage, HumanMessage, AIMessage } from "langchain/sch
 
 export default class BasicAgentRunner {
   constructor(private agentExecutor: AgentExecutor, private chatHistory: BaseMessage[]){}
+
+  getHistory() {
+    return this.chatHistory;
+  }
 
   updateHistory(userInput: string, aiOutput: string) {
     this.chatHistory.push(

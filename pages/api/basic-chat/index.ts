@@ -6,10 +6,7 @@ import { err, info } from "@/app/logging";
 const template = `You're GPT, be yourself when answering questions.`;
 const basicChat = new BasicChatter(getConversationChain(template));
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     info(`${req.method} ${req.url}`);
     

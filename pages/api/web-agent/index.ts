@@ -12,10 +12,7 @@ const defaultChatHistory: BaseMessage[] = [];
 let agentRunner: BasicAgentRunner | null  = null;
 
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
     info(`${req.method} ${req.url}`);
     const {text, selectedSite, userName}: AgentChatMessage = JSON.parse(req.body);

@@ -11,3 +11,8 @@ jest.mock("langchain/text_splitter", () => {
   class MockTS{}
   return {__esModule: true, RecursiveCharacterTextSplitter: MockRCTS, TextSplitter: MockTS};
 });
+jest.mock("langchain/agents", () => {
+  class MockExec{}
+  return {__esModule: true, AgentExecutor: MockExec, createOpenAIFunctionsAgent: jest.fn()};
+});
+
