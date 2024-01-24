@@ -1,8 +1,8 @@
 import { err } from "@/app/logging";
 import { StructuredToolInterface } from "@langchain/core/tools";
-import { ChatOpenAI } from "@langchain/openai";
+import { AzureChatOpenAI, ChatOpenAI } from "@langchain/openai";
 import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
-import { 
+import {
   ChatPromptTemplate, 
   HumanMessagePromptTemplate,
   MessagesPlaceholder,
@@ -55,7 +55,7 @@ export default class BasicAgentRunner {
  * We reserve the right to toss all of this in the recycle bin
  */
 export async function getFunctionsAgentExecutor(
-  llm: ChatOpenAI,
+  llm: ChatOpenAI | AzureChatOpenAI,
   tools: StructuredToolInterface[],
   prompt: ChatPromptTemplate,
 ): Promise<AgentExecutor> {

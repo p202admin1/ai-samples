@@ -8,7 +8,10 @@ import { createRetrieverTool } from 'langchain/tools/retriever';
 export async function getInMemoryVectorStore(
   documents: LangChainDocument[],
 ): Promise<VectorStoreRetriever<MemoryVectorStore>> {
-  const vectorstore = await MemoryVectorStore.fromDocuments(documents, new OpenAIEmbeddings());
+  const vectorstore = await MemoryVectorStore.fromDocuments(
+    documents,
+    new OpenAIEmbeddings(),
+  );
   return vectorstore.asRetriever();
 }
 

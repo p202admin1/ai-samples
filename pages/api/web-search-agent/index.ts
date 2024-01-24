@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { err, info } from "@/app/logging";
 import { getSearchAgentTemplate } from "@/app/services/chat/BasicAgent";
-import model from "@/app/services/chat/Model";
+import {chatOpenAI} from "@/app/services/chat/Model";
 import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents';
 import {TavilySearchResults} from "@langchain/community/tools/tavily_search"
 import { AppChatMessage } from '@/app/types/Chat';
@@ -27,7 +27,7 @@ async function tryTavilySearch(message: AppChatMessage) {
   try {
     const tools = [new TavilySearchResults({ maxResults: 2 })];
     const prompt = getSearchAgentTemplate();
-    const agent = await createOpenAIFunctionsAgent({llm: model, tools, prompt});
+    const agent = await createOpenAIFunctionsAgent({llm: chatOpenAI, tools, prompt});
     const agentExecutor = new AgentExecutor({agent, tools});
     return await agentExecutor.invoke({input: message.text});
 

@@ -1,52 +1,46 @@
 // I'm just putting random scripts in here for experiments...
-
+const {readFileSync} = require("fs");
 const { TavilySearchResults } =  require("@langchain/community/tools/tavily_search");
 const { AgentExecutor, createOpenAIFunctionsAgent } = require("langchain/agents");
 // const { pull } = require("langchain/hub"); // this never seems to work
-const { ChatOpenAI } = require("@langchain/openai");
+const { ChatOpenAI, AzureChatOpenAI, AzureOpenAI } = require("@langchain/openai");
 const { 
   ChatPromptTemplate,
   HumanMessagePromptTemplate,
   SystemMessagePromptTemplate,
   MessagesPlaceholder,
+  HumanMessage,
 } = require( "@langchain/core/prompts");
 
 (async() => {
 
-  const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo-1106",
-    temperature: 0,
-  });
-  
-  // Define the tools the agent will have access to.
-  const tools = [new TavilySearchResults({ maxResults: 2 })];
-  
-  const prompt = getDefaultAgentTemplate();
-  
-  const agent = await createOpenAIFunctionsAgent({
-    llm,
-    tools,
-    prompt,
-  });
-  
-  const agentExecutor = new AgentExecutor({
-    agent,
-    tools,
-  });
-  
-  const result = await agentExecutor.invoke({
-    input: "what teams are in the AFC championship game this year?" //"what is LangChain?",
-  });
-  
-  console.log(result);
 
+
+  const llm = new AzureChatOpenAI({
+    openAIApiKey: "",
+    openAIBasePath: "https://*-openai.openai.azure.com/",
+    deploymentName: "gpt-35-turbo",
+    openAIApiVersion: "2023-12-01-preview"
+  });
+
+  const context = readFileSync("./app/texts/gnus.txt").toString("utf-8");
+
+  const question = "what happened in this story?";
+  const template = `
+SYSTEM
+You are a helpful assistant. Use the context to answer questions:
+${context}
+HUMAN
+${question}
+`;
+
+  const r = await llm.invoke(template);
+  console.log(r);
 })();
-
-function getDefaultAgentTemplate() {
-  return ChatPromptTemplate.fromMessages([
-    SystemMessagePromptTemplate.fromTemplate(`You are a helpful assistant`),
-    // new MessagesPlaceholder("history"),
-    HumanMessagePromptTemplate.fromTemplate("{input}"),
-    new MessagesPlaceholder("agent_scratchpad"),
-  ]);
-}
+// const template = `
+// SYSTEM
+// You are a helpful assistant who answers questions about the following news article:
+// ${context}
+// HUMAN
+// ${question}
+// `;

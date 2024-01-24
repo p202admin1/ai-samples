@@ -1,5 +1,5 @@
 "use client"
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Heading from "../components/Heading";
 import ChatUI from "../components/ChatUI";
 import connectWithAgent from './connectWithAgent';
@@ -11,6 +11,7 @@ export default function WebAgentPage() {
       <Box>
         <Heading variant="h1" text="Chat With Web Agent" />
           <AgentConnectedChat />
+          <Typography>Using chatOpenAI</Typography>
       </Box>
   );
 }

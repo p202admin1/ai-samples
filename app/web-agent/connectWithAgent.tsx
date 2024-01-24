@@ -65,7 +65,7 @@ export default function connectWithAgent(Child: FC<AgentChildProps>) {
                 {siteOptions}
               </Select>
             </FormControl>
-            {selectedSite != null && <Typography>{`You're chatting about: ${selectedSite.name}`}</Typography>}
+            {selectedSite != null && <Typography style={{marginLeft: "0.5em"}}>{`You're chatting about: ${selectedSite.name}`}</Typography>}
           </form>
           <Child {...childProps} />
         </Box>

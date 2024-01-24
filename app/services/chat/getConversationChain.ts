@@ -6,11 +6,11 @@ import {
   SystemMessagePromptTemplate,
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
-import model from "@/app/services/chat/Model";
+import {chatOpenAI} from "@/app/services/chat/Model";
 
 export default function getConversationChain(template: string): ConversationChain {
   return new ConversationChain({
-    llm: model,
+    llm: chatOpenAI,
     memory: new BufferMemory({ returnMessages: true, memoryKey: "history", inputKey: "message" }),
     prompt: ChatPromptTemplate.fromMessages([
       SystemMessagePromptTemplate.fromTemplate(template),

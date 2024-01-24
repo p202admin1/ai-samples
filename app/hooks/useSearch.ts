@@ -17,6 +17,7 @@ export default function useSearch(url: string, postFunc: (url: string, msg: AppC
       const queryToPost = searchInput;
       setInterstitialText(`Searching for "${queryToPost} ..."`);
       setSearchInput("");
+      setSearchResults("");
       setIsSearching(true);
       const results = await postFunc(url, {text: queryToPost, source: Chatters.UI});
       setIsSearching(false);
