@@ -94,3 +94,11 @@ export function getDefaultAgentTemplate() {
     new MessagesPlaceholder("agent_scratchpad"),
   ]);
 }
+
+export function getSearchAgentTemplate() {
+  return ChatPromptTemplate.fromMessages([
+    SystemMessagePromptTemplate.fromTemplate(`You are a helpful assistant`),
+    HumanMessagePromptTemplate.fromTemplate("{input}"),
+    new MessagesPlaceholder("agent_scratchpad"),
+  ]);
+}
