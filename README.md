@@ -14,22 +14,34 @@ The `Pages` so far are
 
 The structure is a little helter skelter because we're still getting a feel for what these objects are but useful code lives here:
 -app
+
 --services
+
 ----chat [has the various chat related classes and functions in cluding the "agent"]
+
 ----vectors [creates and exports the vector store]
+
 ----webloading [web scraper thingies]
 
 ### UI
 
 -app
 ./layout.tsx ["root" of the app]
+
 ./page.tsx [empty home page]
+
 --components [questionable components live here]
+
 --basic-chat
+
 --basic-rag
+
 --web-agent
+
 --web-not-agent
+
 --web-search-agent
+
 --hooks [questionable hooks live here]
 
 The chat pages talk to the pages/api routes by the same names. Those api routes are just handler functions that use a "service class" we've called `Chatter`. The difference in GPT's behavior is determined solely by the prompts fed to the `ConversationChain` that uses a `MemoryBuffer` as described here [Langchain Buffer Docs](https://js.langchain.com/docs/modules/memory/types/buffer).
