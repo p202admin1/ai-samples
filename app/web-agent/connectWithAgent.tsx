@@ -1,4 +1,4 @@
-import { FC, Component, ChangeEvent } from 'react';
+import { FC, Component, ChangeEvent } from "react";
 import { 
   Box,
   TextField,
@@ -8,9 +8,9 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-} from '@mui/material';
-import { webAgentUrl } from '../http/urls';
-import { AgentUIConfig } from '../types/Chat';
+} from "@mui/material";
+import { webAgentUrl } from "../http/urls";
+import { AgentUIConfig } from "../types/Chat";
 
 const agentSites = [
   {name: "Llama2", url: "https://ai.meta.com/research/publications/llama-2-open-foundation-and-fine-tuned-chat-models/"},
@@ -21,14 +21,11 @@ const agentSites = [
 
 type AgentChildProps = {url: string} & AgentUIConfig;
 
-export default function connectWithAgent(Child: FC<AgentChildProps>) {
+export default function connectWithAgent(Child: FC<AgentChildProps>, overrideUrl?: string) {
   class AgentConfigForm extends Component<{}, AgentUIConfig> {
     constructor(props: any) {
       super(props);
-      this.state = {
-        selectedSite: null,
-        userName: ""
-      };
+      this.state = {selectedSite: null, userName: ""};
     }
 
     handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +45,7 @@ export default function connectWithAgent(Child: FC<AgentChildProps>) {
       const siteOptions = [<MenuItem disabled key="empty" value=""></MenuItem>].concat(
         agentSites.map(({name, url}) => (<MenuItem key={name} value={url}>{name}</MenuItem>)
       ));
-      const childProps: AgentChildProps = {selectedSite, url: webAgentUrl, userName};
+      const childProps: AgentChildProps = {selectedSite, url: overrideUrl ? overrideUrl : webAgentUrl, userName};
       
       return(
         <Box>
@@ -65,7 +62,12 @@ export default function connectWithAgent(Child: FC<AgentChildProps>) {
                 {siteOptions}
               </Select>
             </FormControl>
-            {selectedSite != null && <Typography style={{marginLeft: "0.5em"}}>{`You're chatting about: ${selectedSite.name}`}</Typography>}
+            {selectedSite != null && (
+              <Typography style={{marginLeft: "0.5em"}}>
+                {`You"re chatting about: ${selectedSite.name}`}
+                </Typography>
+              )
+            }
           </form>
           <Child {...childProps} />
         </Box>

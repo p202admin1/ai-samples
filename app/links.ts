@@ -6,4 +6,5 @@ export const navLinks: NavigationLink[] = [
   {href: "/basic-rag", text: "RAG Chat 1"},
   {href: "/web-agent", text: "Chat With Agent"},
   {href: "/web-search-agent", text: "Search Interwebs"},
+  {href: "/web-not-agent", text: "Chat No Agent"},
 ]
