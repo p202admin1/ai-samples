@@ -10,7 +10,13 @@ export async function getInMemoryVectorStore(
 ): Promise<VectorStoreRetriever<MemoryVectorStore>> {
   const vectorstore = await MemoryVectorStore.fromDocuments(
     documents,
-    new OpenAIEmbeddings(),
+    new OpenAIEmbeddings({
+      modelName: process.env.AZURE_OPENAI_EMBEDDING_MODEL,
+      azureOpenAIApiKey: process.env.AZURE_OPENAI_API_KEY,
+      azureOpenAIApiInstanceName: process.env.AZURE_OPENAI_API_INSTANCE_NAME,
+      azureOpenAIApiDeploymentName: process.env.AZURE_OPENAI_EMBEDDING_MODEL,
+      azureOpenAIApiVersion: process.env.AZURE_OPENAI_API_VERSION,
+    }),
   );
   return vectorstore.asRetriever();
 }

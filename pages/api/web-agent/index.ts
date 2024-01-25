@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import BasicAgentRunner, {getDefaultAgentTemplate, getFunctionsAgentExecutor} from "@/app/services/chat/BasicAgent";
-import {chatOpenAI} from "@/app/services/chat/Model";
+import {chatOpenAI, azureChatOpenAI} from "@/app/services/chat/Model";
 import { err, info } from "@/app/logging";
 import { getVectorStoreRetrieverTool } from '@/app/services/vectors';
 import { getSplitDocuments } from '@/app/services/webloading';
@@ -44,7 +44,7 @@ async function getAgentRunner({url, name}: AgentSite): Promise<BasicAgentRunner>
   );
 
   const executor = await getFunctionsAgentExecutor(
-    chatOpenAI,
+    azureChatOpenAI,
     [vectorStoreRetrieverTool],
     defaultTemplate,
   );

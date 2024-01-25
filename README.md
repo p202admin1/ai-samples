@@ -1,17 +1,51 @@
 ## AI Samples
 
-This project has some GPT integration samples and is meant to experiment with and extend these ideas. The project structure is definitely subject to change. The `Pages` so far are
+This project has some GPT integration samples and is meant to experiment with and extend these ideas. The project structure is definitely subject to change. Note, we're using `yarn` not `npm`.
+The `Pages` so far are
 
 - Home (there's nothing on it)
 - Basic Chat (where GPT is allowed to just be itself)
 - Basic RAG Chat (where GPT is given some "about us" text for a fake business and is tasked with answering questions about that business)
+- Web Agent (uses a langchain agent, a webpage scraper and a memory vector store to do RAG)
+- Web Search Agent (uses an agent and a search engine called "tavily" to do RAG)
+- Web Not Agent (like Web Agent, but just uses a ConversationChain rather than an agent)
 
-The chat pages talk to the pages/api routes by the same names. Those api routess are just handler functions that use a "service class" we've called `Chatter`. The difference in GPT's behavior is determined solely by the prompts fed to the `ConversationChain` that uses a `MemoryBuffer` as described here [Langchain Buffer Docs](https://js.langchain.com/docs/modules/memory/types/buffer).
+### Services
+
+The structure is a little helter skelter because we're still getting a feel for what these objects are but useful code lives here:
+-app
+--services
+----chat [has the various chat related classes and functions in cluding the "agent"]
+----vectors [creates and exports the vector store]
+----webloading [web scraper thingies]
+
+### UI
+
+-app
+./layout.tsx ["root" of the app]
+./page.tsx [empty home page]
+--components [questionable components live here]
+--basic-chat
+--basic-rag
+--web-agent
+--web-not-agent
+--web-search-agent
+--hooks [questionable hooks live here]
+
+The chat pages talk to the pages/api routes by the same names. Those api routes are just handler functions that use a "service class" we've called `Chatter`. The difference in GPT's behavior is determined solely by the prompts fed to the `ConversationChain` that uses a `MemoryBuffer` as described here [Langchain Buffer Docs](https://js.langchain.com/docs/modules/memory/types/buffer).
 
 To get it working locally, one will need a `.env.local` file with this variable set:
 
 ```bash
-OPENAI_API_KEY=<SOME_API_KEY>
+NEXT_PUBLIC_BASIC_CHAT_URL="http://localhost:3000/api/basic-chat"
+NEXT_PUBLIC_BASIC_RAG_URL="http://localhost:3000/api/basic-rag"
+TAVILY_API_KEY=XXXX #(ask for this if you want the web search to work, it's not exciting)
+AZURE_OPENAI_API_KEY=XXXX
+AZURE_OPENAI_API_INSTANCE_NAME=XXXX
+AZURE_OPENAI_CHAT_MODEL="gpt-35-turbo"
+AZURE_OPENAI_API_VERSION="2023-12-01-preview"
+AZURE_OPENAI_ENDPOINT="https://XXXX.openai.azure.com/"
+AZURE_OPENAI_EMBEDDING_MODEL="text-embedding-ada-002" #(needed for the "agent" and "noagent" flows)
 ```
 
 The UI and styles are pretty wonky so far but it's using material-ui, so people who know what they're doing could probably make it look nice.

@@ -3,7 +3,7 @@ import { BufferMemory } from "langchain/memory";
 import { ChatPromptTemplate, SystemMessagePromptTemplate, MessagesPlaceholder } from "langchain/prompts";
 import { VectorStoreRetriever } from "langchain/vectorstores/base";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { chatOpenAI } from "./Model";
+import { azureChatOpenAI } from "./Model";
 import { err } from "@/app/logging";
 
 export default class NotAgent {
@@ -14,7 +14,7 @@ export default class NotAgent {
   chain: ConversationChain;
   constructor(private vectorstore: VectorStoreRetriever<MemoryVectorStore>) {
     this.chain = new ConversationChain({
-      llm: chatOpenAI,
+      llm: azureChatOpenAI,
       memory: new BufferMemory({ returnMessages: true, memoryKey: "history", inputKey: "question" }),
       prompt: ChatPromptTemplate.fromMessages([
         SystemMessagePromptTemplate.fromTemplate(this.template),

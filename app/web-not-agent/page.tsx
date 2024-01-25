@@ -10,7 +10,7 @@ const AgentConnectedChatButNot = connectWithAgent(ChatUI, webNotAgentUrl);
 export default function WebNotAgentPage() {
   return (
       <Box>
-        <Heading variant="h1" text="Interwebs Search Agent" />
+        <Heading variant="h1" text="Chat With ...Not Agent" />
         <AgentConnectedChatButNot />
       </Box>
   );
