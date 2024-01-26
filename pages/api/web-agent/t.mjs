@@ -15,10 +15,10 @@ import {
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
 
-const openAIApiKey = "";
+const openAIApiKey = "0c96f62ac80c49839dd14a209b3276d5";
 const embeddingModel = "text-embedding-ada-002";
 const chatModel = "gpt-35-turbo";
-const openAIBasePath = "https:// .openai.azure.com/";
+const openAIBasePath = "https://agileassist-openai.openai.azure.com/";
 const openAIApiVersion = "2023-12-01-preview";
 
 const azureChatOpenAI = new AzureChatOpenAI({
@@ -26,7 +26,7 @@ const azureChatOpenAI = new AzureChatOpenAI({
   openAIBasePath,
   deploymentName: chatModel,
   openAIApiVersion,
-  verbose: true,
+  // verbose: true,
 });
 
 function getConversationChain(template, llm) {
@@ -48,10 +48,32 @@ function getConversationChain(template, llm) {
     const url = "https://arxiv.org/pdf/2201.07311v1.pdf";
     const reader = new PdfReader();
     
-    await fetchText(fetch, url, tempfile);
-    const jackedText = await parsePdf(tempfile, reader);
-    const pages = jackedText.split("\n\n");
-    await haveGPTFixJackedText(pages[1]);
+    // await fetchText(fetch, url, tempfile);
+    // const jackedText = await parsePdf(tempfile, reader);
+    // const pages = jackedText.split("\n\n");
+    // await haveGPTFixJackedText(pages[1]);
+
+    const prompt = `You are a React and Typescript expert. Write a unit test using react testing library and the jest unit testing framework for the following component. Please only show the code, no explanation:
+
+import {Typography} from '@mui/material';
+
+export interface HeadingProps {
+  text: string;
+  variant: any;
+}
+
+export default function Heading({text, variant}: HeadingProps) {
+  return (
+    <Typography 
+      variant={variant}
+      style={{fontWeight: 100, fontSize: "2.4em", margin: "0.4em 0", textAlign: "center"}}>{text}</Typography>
+  );
+}
+    `;
+
+    const resp = await azureChatOpenAI.invoke(prompt);
+    fs.writeFileSync("app/components/Heading.test.tsx", resp.content.replace("+", ""));
+
 
   } catch (e) {
     console.error(e);
@@ -66,6 +88,7 @@ async function haveGPTFixJackedText(pageText) {
   Should be output like this: "Datasheet for the Pile"
   `;
   const chain = getConversationChain(template, azureChatOpenAI);
+
   const res = await chain.call({page: pageText});
   console.log(res);
 }
