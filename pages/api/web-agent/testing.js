@@ -14,14 +14,13 @@ const {
 } = require("@langchain/core/prompts");
 const { Document } = require("langchain/document");
 
-const doc = new Document({ pageContent: "foo" });
 
 /********************
 ENV VARS NEEDED IN .env.local:
 
 NEXT_PUBLIC_BASIC_CHAT_URL="http://localhost:3000/api/basic-chat"
 NEXT_PUBLIC_BASIC_RAG_URL="http://localhost:3000/api/basic-rag"
-TAVILY_API_KEY=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
+TAVILY_API_KEY=
 AZURE_OPENAI_API_KEY=XXXX
 AZURE_OPENAI_API_INSTANCE_NAME=XXXX
 AZURE_OPENAI_CHAT_MODEL="gpt-35-turbo"
