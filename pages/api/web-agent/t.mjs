@@ -53,26 +53,64 @@ function getConversationChain(template, llm) {
     // const pages = jackedText.split("\n\n");
     // await haveGPTFixJackedText(pages[1]);
 
-    const prompt = `You are a React and Typescript expert. Write a unit test using react testing library and the jest unit testing framework for the following component. Please only show the code, no explanation:
+    const prompt = `You are a React and Typescript expert. Write a unit test using react testing library and the jest unit testing framework for the following React hook. Please only show the code, no explanation:
 
-import {Typography} from '@mui/material';
+import { useState, MouseEvent, ChangeEvent } from "react";
+import { AgentUIConfig, AppChatMessage, Chatters } from "../types/Chat";
+import { err } from "../logging";
 
-export interface HeadingProps {
+export interface AppChatMessage {
   text: string;
-  variant: any;
+  source: string;
+}
+export interface AgentUIConfig {
+  userName: string;
+  selectedSite: AgentSite | null
+}
+export enum Chatters {
+  UI = "You",
+  Basic = "Basic Bot",
+  BasicRag = "Basic RAG Bot",
+  WebAgent = "Agent Smith"
 }
 
-export default function Heading({text, variant}: HeadingProps) {
-  return (
-    <Typography 
-      variant={variant}
-      style={{fontWeight: 100, fontSize: "2.4em", margin: "0.4em 0", textAlign: "center"}}>{text}</Typography>
-  );
+export default function useChat(
+  config: {url: string} & AgentUIConfig,
+  postMessageFunc: (url: string, msg: AppChatMessage) =>  Promise<AppChatMessage>,
+) {
+  const {url, ...rest} = config;
+  const [chatError, setChatError] = useState<Error | null>(null);
+  const [inputValue, setInputValue] = useState("");
+  const [chatMessages, setChatMessages] = useState<AppChatMessage[]>([]);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
+
+  const handleSend = async (e: MouseEvent) => {
+    e.preventDefault();
+    if (inputValue !== "") {
+      try {
+        const messageText = inputValue;
+        setChatMessages((prevMessages) => [...prevMessages, {text: messageText, source: Chatters.UI}]);
+        setInputValue("");
+        const receivedMessage = await  postMessageFunc(url, {text: messageText, source: Chatters.UI, ...rest}); 
+        setChatMessages((prevMessages) => [...prevMessages, receivedMessage] as AppChatMessage[]);
+      } catch (e) {
+        setChatError(e as unknown as Error);
+      }
+    }
+  };
+
+  const handleClear = (e: MouseEvent) => {
+    e.preventDefault();
+    setChatMessages([]);
+    setInputValue("");
+  };
+
+  return {chatError, inputValue, chatMessages, handleChange, handleClear, handleSend};
 }
     `;
 
     const resp = await azureChatOpenAI.invoke(prompt);
-    fs.writeFileSync("app/components/Heading.test.tsx", resp.content.replace("+", ""));
+    fs.writeFileSync("app/hooks/useChat.test.tsx", resp.content.replace("+", ""));
 
 
   } catch (e) {

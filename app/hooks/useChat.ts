@@ -2,10 +2,6 @@ import { useState, MouseEvent, ChangeEvent } from "react";
 import { AgentUIConfig, AppChatMessage, Chatters } from "../types/Chat";
 import { err } from "../logging";
 
-export function checkIsObjectEmpty(obj: any) {
-  return Object.keys(obj).length === 0;
-}
-
 export default function useChat(
   config: {url: string} & AgentUIConfig,
   postMessageFunc: (url: string, msg: AppChatMessage) =>  Promise<AppChatMessage>,
