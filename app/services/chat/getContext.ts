@@ -1,6 +1,6 @@
 import { err } from "@/app/logging";
 import {readFileSync} from "fs";
-// used in the silly examples that jjust read from text files in ./texts folder
+// used in the silly examples that just read from text files in ./texts folder
 export function getContextFromText(filePath: string): string {
   try {
     const textBuffer = readFileSync(filePath)

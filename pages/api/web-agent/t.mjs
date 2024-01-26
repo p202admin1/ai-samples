@@ -53,60 +53,8 @@ function getConversationChain(template, llm) {
     // const pages = jackedText.split("\n\n");
     // await haveGPTFixJackedText(pages[1]);
 
-    const prompt = `You are a React and Typescript expert. Write a unit test using react testing library and the jest unit testing framework for the following React hook. Please only show the code, no explanation:
-
-import { useState, MouseEvent, ChangeEvent } from "react";
-import { AgentUIConfig, AppChatMessage, Chatters } from "../types/Chat";
-import { err } from "../logging";
-
-export interface AppChatMessage {
-  text: string;
-  source: string;
-}
-export interface AgentUIConfig {
-  userName: string;
-  selectedSite: AgentSite | null
-}
-export enum Chatters {
-  UI = "You",
-  Basic = "Basic Bot",
-  BasicRag = "Basic RAG Bot",
-  WebAgent = "Agent Smith"
-}
-
-export default function useChat(
-  config: {url: string} & AgentUIConfig,
-  postMessageFunc: (url: string, msg: AppChatMessage) =>  Promise<AppChatMessage>,
-) {
-  const {url, ...rest} = config;
-  const [chatError, setChatError] = useState<Error | null>(null);
-  const [inputValue, setInputValue] = useState("");
-  const [chatMessages, setChatMessages] = useState<AppChatMessage[]>([]);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
-
-  const handleSend = async (e: MouseEvent) => {
-    e.preventDefault();
-    if (inputValue !== "") {
-      try {
-        const messageText = inputValue;
-        setChatMessages((prevMessages) => [...prevMessages, {text: messageText, source: Chatters.UI}]);
-        setInputValue("");
-        const receivedMessage = await  postMessageFunc(url, {text: messageText, source: Chatters.UI, ...rest}); 
-        setChatMessages((prevMessages) => [...prevMessages, receivedMessage] as AppChatMessage[]);
-      } catch (e) {
-        setChatError(e as unknown as Error);
-      }
-    }
-  };
-
-  const handleClear = (e: MouseEvent) => {
-    e.preventDefault();
-    setChatMessages([]);
-    setInputValue("");
-  };
-
-  return {chatError, inputValue, chatMessages, handleChange, handleClear, handleSend};
-}
+    const prompt = `You are a React and Typescript expert. Write a unit test using react testing library and the jest unit testing framework for the following React component. Please only show the code, no explanation:
+<CODE_HERE>
     `;
 
     const resp = await azureChatOpenAI.invoke(prompt);

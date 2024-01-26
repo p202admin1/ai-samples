@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { err, info } from "@/app/logging";
 import { getSearchAgentTemplate } from "@/app/services/chat/BasicAgent";
-import {chatOpenAI, azureChatOpenAI} from "@/app/services/chat/Model";
+import { azureChatOpenAI } from "@/app/services/chat/Model";
 import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents';
 import {TavilySearchResults} from "@langchain/community/tools/tavily_search"
 import { AppChatMessage } from '@/app/types/Chat';
